@@ -45,7 +45,7 @@ class WelcomeViewController: UIViewController, UITextFieldDelegate {
      }
 
     @objc func goToShowWeatherViewController() {
-        let viewModel: ShowWeatherViewModelProtocol = ShowWeatherViewModel()
+        let viewModel: ShowWeatherViewModelProtocol = ShowWeatherViewModel(query: inputText)
         let showWeatherViewController = ShowWeatherViewController(viewModel: viewModel, location: inputText)
         present(showWeatherViewController, animated: true)
     }

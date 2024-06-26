@@ -13,76 +13,55 @@ struct Welcome: Codable {
 
 // MARK: - Current
 struct Current: Codable {
-    let lastUpdatedEpoch: Int?
-    let lastUpdated: String?
     let tempC: Double?
-    let tempF, isDay: Int?
+//    let tempF: Int?
+//    let isDay: Int?
     let condition: Condition?
-    let windMph, windKph: Double?
-    let windDegree: Int?
-    let windDir: String?
-    let pressureMB: Int?
-    let pressureIn: Double?
-    let precipMm, precipIn, humidity, cloud: Int?
-    let feelslikeC, feelslikeF, windchillC: Double?
-    let windchillF: Int?
-    let heatindexC, heatindexF: Double?
-    let dewpointC: Int?
-    let dewpointF: Double?
-    let visKM, visMiles, uv, gustMph: Int?
-    let gustKph: Double?
-
+//    let windMph: Double?
+//    let windKph: Double?
+//    let windDegree: Int?
+//    let windDir: String?
+//    let pressureMB: Int?
+//    let pressureIn: Double?
+//    let precipMm: Int?
+//    let precipIn: Int?
+//    let humidity: Int?
+//    let cloud: Int?
+//    let feelslikeC: Double?
+//    let feelslikeF: Double?
+//    let windchillC: Double?
+//    let windchillF: Int?
+//    let heatindexC: Double?
+//    let heatindexF: Double?
+//    let dewpointC: Int?
+//    let dewpointF: Double?
+//    let visKM: Int?
+//    let visMiles: Int?
+//    let uv: Int?
+//    let gustMph: Int?
+//    let gustKph: Double?
     enum CodingKeys: String, CodingKey {
-        case lastUpdatedEpoch
-        case lastUpdated
-        case tempC
-        case tempF
-        case isDay
+        case tempC = "temp_c"
         case condition
-        case windMph
-        case windKph
-        case windDegree
-        case windDir
-        case pressureMB
-        case pressureIn
-        case precipMm
-        case precipIn
-        case humidity, cloud
-        case feelslikeC
-        case feelslikeF
-        case windchillC
-        case windchillF
-        case heatindexC
-        case heatindexF
-        case dewpointC
-        case dewpointF
-        case visKM
-        case visMiles
-        case uv
-        case gustMph
-        case gustKph
     }
 }
 
 // MARK: - Condition
 struct Condition: Codable {
-    let text, icon: String?
+    let text: String?
+    let icon: String?
     let code: Int?
 }
 
 // MARK: - Location
 struct Location: Codable {
-    let name, region, country: String?
-    let lat, lon: Double?
-    let tzID: String?
-    let localtimeEpoch: Int?
-    let localtime: String?
-
-    enum CodingKeys: String, CodingKey {
-        case name, region, country, lat, lon
-        case tzID
-        case localtimeEpoch
-        case localtime
-    }
+    let name: String?
+//    let region: String?
+    let country: String?
+//    let lat: Double?
+//    let lon: Double?
+//    let tzID: String?
+//    let localtimeEpoch: Int?
+//    let localtime: String?
 }
 
