@@ -7,13 +7,13 @@ import Foundation
 
 // MARK: - Welcome
 struct Welcome: Codable {
-    let location: Location?
-    let current: Current?
+    let location: Location
+    let current: Current
 }
 
 // MARK: - Current
 struct Current: Codable {
-    let tempC: Double?
+    let tempC: Double
 //    let tempF: Int?
 //    let isDay: Int?
     let condition: Condition?
@@ -55,9 +55,9 @@ struct Condition: Codable {
 
 // MARK: - Location
 struct Location: Codable {
-    let name: String?
-//    let region: String?
-    let country: String?
+    let name: String
+    let region: String
+//    let country: String?
 //    let lat: Double?
 //    let lon: Double?
 //    let tzID: String?

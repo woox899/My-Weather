@@ -13,7 +13,8 @@ class NetworkManager {
         guard let url = URL(string: "https://api.weatherapi.com/v1/current.json") else { return }
         let params = [
             "key" : "8a7d5dc0770349b99cd84254242204",
-            "q" : searchWeather]
+            "q" : searchWeather,
+            "lang" : "ru"]
         
         AF.request(url, method: .get, parameters: params).response { response in
             if let error = response.error {
