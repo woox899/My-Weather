@@ -8,28 +8,42 @@
 import Foundation
 
 protocol ShowWeatherViewModelProtocol: AnyObject {
-    func getLocation()
+    func getCurrentWeather()
+    func getHourlyWeather()
     var delegate: ShowWeatherViewModelDelegate? { get set }
 }
 
 protocol ShowWeatherViewModelDelegate: AnyObject {
-    func displayWeather(model: Welcome)
+    func displayCurrentWeather(model: Welcome)
+    func displayHourlytWeather(model: HourlyWeatherModel)
 }
 
 class ShowWeatherViewModel: ShowWeatherViewModelProtocol {
     var query: String
     weak var delegate: ShowWeatherViewModelDelegate?
     let networkManger = NetworkManager()
-    func getLocation() {
+    func getCurrentWeather() {
         networkManger.getWeather(searchWeather: query) { [weak self] weather in
             switch weather {
             case .success(let model):
-                self?.delegate?.displayWeather(model: model)
+                self?.delegate?.displayCurrentWeather(model: model)
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
     }
+    
+    func getHourlyWeather() {
+        networkManger.getHourlyWeather(searchWeather: query) { [weak self] hourlyWeather in
+            switch hourlyWeather {
+            case .success(let model):
+                self?.delegate?.displayHourlytWeather(model: model)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
     init(query: String) {
         self.query = query
     }
