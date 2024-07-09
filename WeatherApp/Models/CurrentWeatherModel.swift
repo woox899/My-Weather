@@ -12,9 +12,9 @@ struct Welcome: Codable {
     let base: String?
     let main: Main
     let visibility: Int?
-    let wind: Wind?
+    let wind: Wind
     let clouds: Clouds?
-    let dt: Int?
+    let dt: Date
     let sys: Sys?
     let timezone: Int?
     let id: Int?
@@ -36,11 +36,12 @@ struct Coord: Codable {
 // MARK: - Main
 struct Main: Codable {
     let temp: Double
-    let feelsLike: Double?
+    let feelsLike: Double
     let tempMin: Double?
     let tempMax: Double?
     let pressure: Int?
-    let humidity: Int?
+    let humidity: Int
+    let grndLevel: Double
     
     enum CodingKeys: String, CodingKey {
         case temp
@@ -49,6 +50,7 @@ struct Main: Codable {
         case tempMax = "temp_max"
         case pressure
         case humidity
+        case grndLevel = "grnd_level"
     }
 }
 
@@ -72,7 +74,7 @@ struct Weather: Codable {
 
 // MARK: - Wind
 struct Wind: Codable {
-    let speed: Double?
+    let speed: Double
     let deg: Int?
     let gust: Double?
 }

@@ -16,7 +16,7 @@ class ShowWeatherCollectionViewCell: UICollectionViewCell {
     
     private let weatherView: UIView = {
         let weatherView = UIView()
-        weatherView.backgroundColor = .lightGray
+        weatherView.backgroundColor = .clear
         weatherView.layer.cornerRadius = 45
         return weatherView
     }()

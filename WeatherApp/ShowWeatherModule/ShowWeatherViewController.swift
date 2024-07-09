@@ -16,6 +16,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
     var location: String
     
     var model: Welcome?
+    
     var hourlyWeatherModel = [List]()
     
     private let weatherImageView: UIImageView = {
@@ -39,6 +40,14 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         return locationLabelCity
     }()
     
+    private let dateLabel: UILabel = {
+        let dateLabel = UILabel()
+        dateLabel.textAlignment = .center
+        dateLabel.textColor = .white
+        dateLabel.font = .systemFont(ofSize: 16)
+        return dateLabel
+    }()
+    
     private let degreesCelsius: UILabel = {
         let degreesCelsius = UILabel()
         degreesCelsius.textColor = .white
@@ -55,11 +64,12 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         return weatherDescriptionLabel
     }()
     
-    private let inDetailCurrentWeather: UIButton = {
+   private lazy var inDetailCurrentWeather: UIButton = {
         let inDetailCurrentWeather = UIButton()
         inDetailCurrentWeather.setTitle("Подробнее", for: .normal)
         inDetailCurrentWeather.backgroundColor = .lightGray
         inDetailCurrentWeather.layer.cornerRadius = 12
+       inDetailCurrentWeather.addTarget(self, action: #selector(goToWeatherDetaulsViewController), for: .touchUpInside)
         return inDetailCurrentWeather
     }()
     
@@ -70,51 +80,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         briefForecastForTheComingDay.adjustsFontSizeToFitWidth = true
         return briefForecastForTheComingDay
     }()
-    
-//    private lazy var todayWeatherButton: UIButton = {
-//        let todayWeatherButton = UIButton()
-//        todayWeatherButton.setTitle("Сегодня", for: .normal)
-//        todayWeatherButton.addTarget(self, action: #selector(setupTodayWeatherButton), for: .touchUpInside)
-//        return todayWeatherButton
-//    }()
-    
-//    private lazy var tomorrowWeatherButton: UIButton = {
-//        let tomorrowWeatherButton = UIButton()
-//        tomorrowWeatherButton.setTitle("Завтра", for: .normal)
-//        tomorrowWeatherButton.addTarget(self, action: #selector(setupTomorrowWeatherButton), for: .touchUpInside)
-//        tomorrowWeatherButton.setTitleColor(.gray, for: .normal)
-//        return tomorrowWeatherButton
-//    }()
-//    
-//    private lazy var sevenDaysWeatherButton: UIButton = {
-//        let sevenDaysWeatherButton = UIButton()
-//        sevenDaysWeatherButton.setTitle("5 дней", for: .normal)
-//        sevenDaysWeatherButton.addTarget(self, action: #selector(setupSevenDaysWeatherButton), for: .touchUpInside)
-//        sevenDaysWeatherButton.setTitleColor(.gray, for: .normal)
-//        return sevenDaysWeatherButton
-//    }()
-    
-//    private let todayWeatherButtonBottomView: UIView = {
-//        let todayWeatherButtonBottomView = UIView()
-//        todayWeatherButtonBottomView.backgroundColor = .orange
-//        todayWeatherButtonBottomView.isHidden = false
-//        return todayWeatherButtonBottomView
-//    }()
-//    
-//    private let tomorrowWeatherButtonBottomView: UIView = {
-//        let tomorrowWeatherButtonBottomView = UIView()
-//        tomorrowWeatherButtonBottomView.backgroundColor = .orange
-//        tomorrowWeatherButtonBottomView.isHidden = true
-//        return tomorrowWeatherButtonBottomView
-//    }()
-//    
-//    private let sevenDaysWeatherButtonBottomView: UIView = {
-//        let sevenDaysWeatherButtonBottomView = UIView()
-//        sevenDaysWeatherButtonBottomView.backgroundColor = .orange
-//        sevenDaysWeatherButtonBottomView.isHidden = true
-//        return sevenDaysWeatherButtonBottomView
-//    }()
-    
+
     private lazy var weatherCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -142,58 +108,29 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func goToWeatherDetaulsViewController() {
+        let viewModel: WeatherDetailsViewModelProtocol = WeatherDetailsViewModel()
+        let weatherDetailViewController = WeatherDetailsViewController(viewModel: viewModel, model: model)
+        present(weatherDetailViewController, animated: true)
+    }
+
     func setupNavigationItemTitleColor() {
         let textAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationBar.titleTextAttributes = textAttributes
         
         navigationItem.title = "Weather App"
     }
-    
-//    @objc func setupTodayWeatherButton() {
-//        todayWeatherButton.setTitleColor(.white, for: .normal)
-//        tomorrowWeatherButton.setTitleColor(.gray, for: .normal)
-//        sevenDaysWeatherButton.setTitleColor(.gray, for: .normal)
-//        
-//        todayWeatherButtonBottomView.isHidden = false
-//        tomorrowWeatherButtonBottomView.isHidden = true
-//        sevenDaysWeatherButtonBottomView.isHidden = true
-//    }
-//    
-//    @objc func setupTomorrowWeatherButton() {
-//        tomorrowWeatherButton.setTitleColor(.white, for: .normal)
-//        todayWeatherButton.setTitleColor(.gray, for: .normal)
-//        sevenDaysWeatherButton.setTitleColor(.gray, for: .normal)
-//        
-//        todayWeatherButtonBottomView.isHidden = true
-//        tomorrowWeatherButtonBottomView.isHidden = false
-//        sevenDaysWeatherButtonBottomView.isHidden = true
-//    }
-//    
-//    @objc func setupSevenDaysWeatherButton() {
-//        sevenDaysWeatherButton.setTitleColor(.white, for: .normal)
-//        todayWeatherButton.setTitleColor(.gray, for: .normal)
-//        tomorrowWeatherButton.setTitleColor(.gray, for: .normal)
-//        
-//        todayWeatherButtonBottomView.isHidden = true
-//        tomorrowWeatherButtonBottomView.isHidden = true
-//        sevenDaysWeatherButtonBottomView.isHidden = false
-//    }
 
     func setupUI() {
         view.backgroundColor = UIColor(red: 125/255, green: 195/255, blue: 251/255, alpha: 1)
         
         view.addSubview(weatherImageView)
         view.addSubview(locationLabelCity)
+        view.addSubview(dateLabel)
         view.addSubview(temperatureLabel)
         view.addSubview(degreesCelsius)
         view.addSubview(weatherDescriptionLabel)
-//        view.addSubview(todayWeatherButton)
-//        view.addSubview(tomorrowWeatherButton)
-//        view.addSubview(sevenDaysWeatherButton)
         view.addSubview(weatherCollectionView)
-//        view.addSubview(todayWeatherButtonBottomView)
-//        view.addSubview(tomorrowWeatherButtonBottomView)
-//        view.addSubview(sevenDaysWeatherButtonBottomView)
         view.addSubview(inDetailCurrentWeather)
         view.addSubview(briefForecastForTheComingDay)
         
@@ -209,6 +146,11 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
             make.top.equalTo(weatherImageView.snp.bottom).offset(10)
         }
         
+        degreesCelsius.snp.makeConstraints { make in
+            make.leading.equalTo(temperatureLabel.snp.trailing).offset(2)
+            make.top.equalTo(temperatureLabel.snp.top).offset(15)
+        }
+        
         locationLabelCity.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(temperatureLabel.snp.bottom).offset(5)
@@ -216,57 +158,19 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
             make.height.equalTo(50)
         }
         
-        degreesCelsius.snp.makeConstraints { make in
-            make.leading.equalTo(temperatureLabel.snp.trailing).offset(2)
-            make.top.equalTo(temperatureLabel.snp.top).offset(15)
+        dateLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(locationLabelCity.snp.bottom).offset(3)
+            make.width.equalTo(view.frame.width * 0.8)
         }
-        
+
         weatherDescriptionLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(locationLabelCity.snp.bottom).offset(15)
+            make.top.equalTo(dateLabel.snp.bottom).offset(10)
             make.width.equalTo(view.frame.width * 0.8)
             make.height.equalTo(50)
         }
-        
-//        todayWeatherButton.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().offset(18)
-//            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(40)
-//            make.width.equalTo(view.frame.width / 4)
-//        }
-//        
-//        tomorrowWeatherButton.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(40)
-//            make.width.equalTo(view.frame.width / 4)
-//        }
-//        
-//        sevenDaysWeatherButton.snp.makeConstraints { make in
-//            make.trailing.equalToSuperview().offset(-18)
-//            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(40)
-//            make.width.equalTo(view.frame.width / 4)
-//        }
 
-//        todayWeatherButtonBottomView.snp.makeConstraints { make in
-//            make.top.equalTo(todayWeatherButton.snp.bottom).offset(20)
-//            make.height.equalTo(3)
-//            make.width.equalTo(view.frame.width / 15)
-//            make.centerX.equalTo(todayWeatherButton.snp.centerX)
-//        }
-//        
-//        tomorrowWeatherButtonBottomView.snp.makeConstraints { make in
-//            make.top.equalTo(tomorrowWeatherButton.snp.bottom).offset(20)
-//            make.height.equalTo(3)
-//            make.width.equalTo(view.frame.width / 15)
-//            make.centerX.equalTo(tomorrowWeatherButton.snp.centerX)
-//        }
-//        
-//        sevenDaysWeatherButtonBottomView.snp.makeConstraints { make in
-//            make.top.equalTo(sevenDaysWeatherButton.snp.bottom).offset(20)
-//            make.height.equalTo(3)
-//            make.width.equalTo(view.frame.width / 15)
-//            make.centerX.equalTo(sevenDaysWeatherButton.snp.centerX)
-//        }
-        
         inDetailCurrentWeather.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(20)
@@ -284,7 +188,6 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
             make.width.equalToSuperview()
             make.bottom.equalToSuperview().offset(-100)
             make.height.equalTo(view.frame.height / 5)
-//            make.top.equalTo(inDetailCurrentWeather.snp.bottom).offset(30)
         }
     }
     
@@ -299,10 +202,17 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
 }
 
 extension ShowWeatherViewController: ShowWeatherViewModelDelegate {
-
     func displayCurrentWeather(model: Welcome) {
+        self.model = model
         locationLabelCity.text = model.name
         temperatureLabel.text = "\(String(format: "%.0f", model.main.temp))"
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd.MM.yy"
+        let monthString = dateFormatter.string(from: model.dt)
+       
+        dateLabel.text = "\(monthString)"
+        
         weatherDescriptionLabel.text = model.weather.first?.description
         
         var weatherIconURL: URL {

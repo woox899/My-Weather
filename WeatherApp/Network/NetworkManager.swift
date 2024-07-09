@@ -32,7 +32,9 @@ class NetworkManager {
                         complition(.failure(error))
                     } else {
                         if let data = response.data {
-                            guard let responseData = try? JSONDecoder().decode(Welcome.self, from: data) else { return }
+                            let decoder = JSONDecoder()
+                            decoder.dateDecodingStrategy = .secondsSince1970
+                            guard let responseData = try? decoder.decode(Welcome.self, from: data) else { return }
                             complition(.success(responseData))
                         }
                     }
@@ -65,7 +67,6 @@ class NetworkManager {
                         if let data = response.data {
                             guard let responseData = try? JSONDecoder().decode(HourlyWeatherModel.self, from: data) else { return }
                             complition(.success(responseData))
-                            print(responseData)
                         }
                     }
                 }
