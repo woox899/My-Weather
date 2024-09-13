@@ -17,6 +17,7 @@ class TemperatureTableViewCell: UITableViewCell {
         temparatureLabelHeader.text = "Температура окружающего воздуха:"
         temparatureLabelHeader.adjustsFontSizeToFitWidth = true
         temparatureLabelHeader.textAlignment = .left
+        temparatureLabelHeader.font = .systemFont(ofSize: 16)
         return temparatureLabelHeader
     }()
     

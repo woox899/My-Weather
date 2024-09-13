@@ -22,6 +22,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
     private let weatherImageView: UIImageView = {
         let weatherImageView = UIImageView()
         weatherImageView.contentMode = .scaleAspectFit
+        weatherImageView.backgroundColor = .red
         return weatherImageView
     }()
     
@@ -29,6 +30,8 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         let temperatureLabel = UILabel()
         temperatureLabel.textColor = .white
         temperatureLabel.font = .systemFont(ofSize: 80)
+        temperatureLabel.backgroundColor = .red
+        temperatureLabel.adjustsFontSizeToFitWidth = true
         return temperatureLabel
     }()
     
@@ -37,6 +40,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         locationLabelCity.textAlignment = .center
         locationLabelCity.textColor = UIColor(red: 225/255, green: 227/255, blue: 233/255, alpha: 1)
         locationLabelCity.font = .systemFont(ofSize: 28)
+        locationLabelCity.backgroundColor = .red
         return locationLabelCity
     }()
     
@@ -61,6 +65,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         weatherDescriptionLabel.numberOfLines = 0
         weatherDescriptionLabel.textAlignment = .center
         weatherDescriptionLabel.font = .systemFont(ofSize: 20)
+        weatherDescriptionLabel.backgroundColor = .red
         return weatherDescriptionLabel
     }()
     
@@ -136,14 +141,16 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
         
         weatherImageView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.width.equalTo(view.frame.width / 5)
+            make.width.equalTo(view.frame.width * 0.2)
             make.height.equalTo(weatherImageView.snp.width)
-            make.top.equalToSuperview().offset(130)
+            make.top.equalToSuperview().offset(60)
         }
         
         temperatureLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(weatherImageView.snp.bottom).offset(10)
+            make.width.equalTo(view.frame.width * 0.2)
+            make.height.equalTo(temperatureLabel.snp.width)
         }
         
         degreesCelsius.snp.makeConstraints { make in
@@ -173,7 +180,7 @@ class ShowWeatherViewController: UIViewController, UITextFieldDelegate {
 
         inDetailCurrentWeather.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(20)
+            make.top.equalTo(weatherDescriptionLabel.snp.bottom).offset(10)
             make.width.equalTo(view.frame.width / 3)
         }
         
